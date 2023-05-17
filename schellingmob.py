@@ -2,6 +2,7 @@ import numpy as np
 import math
 import time
 import matplotlib.pyplot as plt
+import random
 
 import mesa.time
 from mesa import Model, Agent
@@ -33,11 +34,15 @@ class SchellingModel(Model):
     Model class for the Schelling segregation model.
     '''
     def __init__(self, side=10, density=0.7, population = 0.3, homophily=0.3,  mobility={"model" :"classic"},
-                 policy="random",  torus = False, town= False, town_decay=2, agents_report=False):
+                 policy="random",  torus = False, town= False, town_decay=2, agents_report=False, seed=None,
+                rel_dist_random =False):
         super().__init__()
 
         self.side = side
         self.density = density
+        
+        if seed != None:
+            self.random.seed(seed)
 
         if type(population) != list:
             self.population = [population, 1-population]
@@ -64,9 +69,13 @@ class SchellingModel(Model):
      
 
         if town:
-            center = (side/2-0.5, side/2-0.5)
-            relevance = lambda pos: side/max(distance(pos,center),side/10)**town_decay
-            self.cell_relevance = {(x,y): relevance((x,y)) for x in range(self.side) for y in range(self.side)}
+            if rel_dist_random:
+                self.cell_relevance = {(x,y): random.random() for x in range(self.side) for y in range(self.side)}
+
+            else:
+                center = (side/2-0.5, side/2-0.5)
+                relevance = lambda pos: side/max(distance(pos,center),side/10)**town_decay
+                self.cell_relevance = {(x,y): relevance((x,y)) for x in range(self.side) for y in range(self.side)}
            
         
       
@@ -196,7 +205,7 @@ class SchellingModel(Model):
        
     
             
-    def show(self,traces=[], labels=False, places= True,  places_val= False, agents=True, savepdf=None ,figsize=10, ax=None):
+    def show(self,traces=[], labels=False, places= True,  places_val= False, agents=True,unhappy=False, savepdf=None ,figsize=10, ax=None):
         
         if ax is None:
             ax = plt.gca()
@@ -256,7 +265,13 @@ class SchellingModel(Model):
                     else:
                         img.text(k + 0.5, i + 0.5, (k,i), va='center', ha='center')
 
-
+        if unhappy:
+            X = [a.pos[0] + 0.5 for a in self.schedule.agents if a.happy==False]
+            Y = [a.pos[1] + 0.5 for a in self.schedule.agents if a.happy==False ]
+            clist = [col_dict[a.type] for a in self.schedule.agents]
+            #plt.scatter(X,Y, s=[15000/(self.side*self.side)]*len(X), marker='o', c=clist, edgecolors="white", linewidth=1)
+            ax.scatter(X,Y, s=[15000/(self.side*self.side)]*len(X), marker='x', c="#ffffff", linewidth=2)
+            
 
 
         #ax.grid(color='w', linewidth= 1/self.side)
