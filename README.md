@@ -1,4 +1,53 @@
-# MISMO: Mobility Informed Segregation Models
+# Mobility constraints in segregation models
+## Table of contents
+1. [Citing](#citing)
+2. [Packages](#packages)
+3. [Abstract](#abstract)
+4. [Data Availability](#data-availability)
+5. [Structure of the repository](#structure-of-the-repository)
+6. [Analysis](#analysis)
+
+# Citing
+In this repository you can find the code for running our model and to replicate the analysis conducted in our paper.
+If you use the code in this repository, please cite our paper:
+
+*Gambetta, Daniele, Giovanni Mauro, and Luca Pappalardo. "Mobility constraints in segregation models." 
+arXiv preprint arXiv:2305.10170 (2023).*
+
+```
+@article{gambetta2023mobility,
+  title={Mobility constraints in segregation models},
+  author={Gambetta, Daniele and Mauro, Giovanni and Pappalardo, Luca},
+  journal={arXiv preprint arXiv:2305.10170},
+  year={2023}
+}
+```
+# Packages
+For running notebooks and scripts of this project you must install the following Python packages:
+```
+  mesa
+  pandas
+  matplotlib
+  numpy
+  altair
+  scikit-mobility
+```
+
+# Abstract
+Since the development of the original Schelling model of urban segregation, several enhancements have been proposed, but none have considered the impact of mobility constraints on model dynamics. 
+Recent studies have shown that human mobility follows specific patterns, such as a preference for short distances and dense locations. This paper proposes a segregation model incorporating mobility constraints to make agents select their location based on distance and location relevance.
+Our findings indicate that the mobility-constrained model produces lower segregation levels but takes longer to converge than the original Schelling model. 
+We identified a few persistently unhappy agents from the minority group who cause this prolonged convergence time and lower segregation level as they move around the grid centre. 
+Our study presents a more realistic representation of how agents move in urban areas and provides a novel and insightful approach to analyzing the impact of mobility constraints on segregation models. 
+We highlight the significance of incorporating mobility constraints when policymakers design interventions to address urban segregation.
+
+
+
+
+
+
+
+
 
 **schellingmob.py**: implementation of MESA classes of model and agent
 
